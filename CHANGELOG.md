@@ -1,0 +1,18 @@
+# Changelog
+
+All notable changes to this plugin are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [Unreleased]
+
+## [0.1.0] – 2026-09-30
+
+### Added
+
+- Export profiles per target (site address, server path, table prefix, environment type, options).
+- Database dump with serialization-safe search and replace of every spelling of the local address and file path; the local database is not modified.
+- Complete copy of the site with `.gitignore`-style exclusion rules; linked plugin repositories are exported from `dist/<folder>.zip` or with their `.distignore`.
+- `.htaccess` and `wp-config.php` template for the target, optional table prefix change.
+- `MIGRATION.txt` report with next steps, statistics and remaining references to the local site.
+- Step-by-step export with progress bar, continue and cancel; only available on local development sites.
+- Automatic updates from GitHub releases.
