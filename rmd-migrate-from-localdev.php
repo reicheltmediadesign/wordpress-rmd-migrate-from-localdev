@@ -3,7 +3,7 @@
  * Plugin Name:       RMD Migrate from Localdev
  * Plugin URI:        https://github.com/reicheltmediadesign/wordpress-rmd-migrate-from-localdev
  * Description:       Prepares a local development site for upload: a database dump with serialization-safe search and replace and a copy of all files, ready for SFTP and phpMyAdmin.
- * Version:           0.1.0
+ * Version:           0.2.0
  * Requires at least: 6.8
  * Requires PHP:      8.1
  * Author:            Philipp Reichelt, reichelt media.design
@@ -21,7 +21,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'RMD_MFL_VERSION', '0.1.0' );
+define( 'RMD_MFL_VERSION', '0.2.0' );
 define( 'RMD_MFL_FILE', __FILE__ );
 define( 'RMD_MFL_DIR', plugin_dir_path( __FILE__ ) );
 define( 'RMD_MFL_URL', plugin_dir_url( __FILE__ ) );

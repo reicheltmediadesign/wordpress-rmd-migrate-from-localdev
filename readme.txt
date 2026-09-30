@@ -4,7 +4,7 @@ Tags: migration, search replace, database export, localhost, deployment
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,10 @@ Many settings are stored as serialized PHP data that contains the length of ever
 No. It writes files to a local folder; uploading is up to you.
 
 == Changelog ==
+
+= 0.2.0 =
+* New: profile option "Search engines" to discourage or allow indexing on the target.
+* New: password protection (HTTP basic authentication) for staging targets, renewed with every upload.
 
 = 0.1.0 =
 * Initial release.
