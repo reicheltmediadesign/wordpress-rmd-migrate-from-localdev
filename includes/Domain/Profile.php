@@ -16,6 +16,9 @@ final class Profile {
 
 	public const ENVIRONMENT_TYPES = [ 'production', 'staging', 'development' ];
 
+	/** Search engine visibility on the target: keep the local setting, discourage or allow indexing. */
+	public const SEARCH_ENGINE_MODES = [ 'keep', 'discourage', 'allow' ];
+
 	public const DEFAULT_EXCLUDES = [
 		'.git/',
 		'.github/',
@@ -63,7 +66,11 @@ final class Profile {
 		public readonly bool $skip_revisions,
 		public readonly bool $skip_spam_comments,
 		public readonly bool $portable_collations,
-		public readonly bool $gzip
+		public readonly bool $gzip,
+		public readonly string $search_engines,
+		public readonly bool $basic_auth,
+		public readonly string $basic_auth_user,
+		public readonly string $basic_auth_hash
 	) {}
 
 	/**
@@ -86,6 +93,10 @@ final class Profile {
 			'skip_spam_comments'  => true,
 			'portable_collations' => true,
 			'gzip'                => true,
+			'search_engines'      => 'keep',
+			'basic_auth'          => false,
+			'basic_auth_user'     => '',
+			'basic_auth_hash'     => '',
 		];
 	}
 
@@ -132,6 +143,34 @@ final class Profile {
 			$environment = $defaults['environment_type'];
 		}
 
+		$search_engines = self::string( $raw['search_engines'] ?? $defaults['search_engines'] );
+		if ( ! in_array( $search_engines, self::SEARCH_ENGINE_MODES, true ) ) {
+			$search_engines = $defaults['search_engines'];
+		}
+
+		// Only the bcrypt hash is stored; a submitted password replaces it.
+		$auth_user = trim( self::string( $raw['basic_auth_user'] ?? '' ) );
+		$auth_hash = self::string( $raw['basic_auth_hash'] ?? '' );
+		$password  = self::string( $raw['basic_auth_password'] ?? '' );
+		if ( '' !== $password ) {
+			$auth_hash = BasicAuth::hash( $password );
+		}
+		if ( ! BasicAuth::is_hash( $auth_hash ) ) {
+			$auth_hash = '';
+		}
+		$basic_auth = self::bool( $raw, 'basic_auth' );
+		if ( $basic_auth ) {
+			if ( ! BasicAuth::is_valid_user( $auth_user ) ) {
+				$errors[] = 'invalid_basic_auth_user';
+			}
+			if ( '' === $auth_hash ) {
+				$errors[] = 'basic_auth_password_required';
+			}
+			if ( '' === $target_path ) {
+				$errors[] = 'basic_auth_needs_target_path';
+			}
+		}
+
 		$id = self::string( $raw['id'] ?? '' );
 		if ( ! preg_match( '/^[a-z0-9-]{1,64}$/', $id ) ) {
 			$id = self::slug( $name );
@@ -152,13 +191,35 @@ final class Profile {
 			self::bool( $raw, 'skip_revisions' ),
 			self::bool( $raw, 'skip_spam_comments' ),
 			self::bool( $raw, 'portable_collations' ),
-			self::bool( $raw, 'gzip' )
+			self::bool( $raw, 'gzip' ),
+			$search_engines,
+			$basic_auth,
+			$auth_user,
+			$auth_hash
 		);
 
 		return [
 			'profile' => $profile,
 			'errors'  => $errors,
 		];
+	}
+
+	/**
+	 * Value for the blog_public option on the target, or null to keep the local one.
+	 */
+	public function blog_public(): ?string {
+		return match ( $this->search_engines ) {
+			'discourage' => '0',
+			'allow'      => '1',
+			default      => null,
+		};
+	}
+
+	/**
+	 * Password protection is written only when everything it needs is present.
+	 */
+	public function has_basic_auth(): bool {
+		return $this->basic_auth && BasicAuth::is_valid_user( $this->basic_auth_user ) && '' !== $this->basic_auth_hash && '' !== $this->target_path;
 	}
 
 	public function is_complete(): bool {

@@ -79,6 +79,13 @@ final class ProfileTest extends TestCase {
 		self::assertEquals( $profile, Profile::parse( $profile->to_array() )['profile'] );
 	}
 
+	public function test_search_engine_visibility(): void {
+		self::assertNull( Profile::parse( [] )['profile']->blog_public() );
+		self::assertSame( '0', Profile::parse( [ 'search_engines' => 'discourage' ] )['profile']->blog_public() );
+		self::assertSame( '1', Profile::parse( [ 'search_engines' => 'allow' ] )['profile']->blog_public() );
+		self::assertSame( 'keep', Profile::parse( [ 'search_engines' => 'nonsense' ] )['profile']->search_engines );
+	}
+
 	public function test_required_fields(): void {
 		self::assertSame( [ 'name_required', 'target_url_required' ], Profile::parse( [] )['errors'] );
 	}
