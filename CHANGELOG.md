@@ -5,6 +5,8 @@ All notable changes to this plugin are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] – 2026-09-30
+
 ### Added
 
 - Profile option **Search engines**: discourage or allow indexing on the target (sets `blog_public` in the dump), or keep the setting of the local site.
