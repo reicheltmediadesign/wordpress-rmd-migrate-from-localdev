@@ -260,7 +260,8 @@ final class DatabaseExport {
 
 	/**
 	 * Replaces in text columns, records what remains of the local site and applies
-	 * table-specific fixes (own plugin deactivated, table prefix in keys).
+	 * table-specific fixes (own plugin deactivated, search engine visibility,
+	 * table prefix in keys).
 	 *
 	 * @param array<int, string|null>                   $row
 	 * @param list<array{name: string, kind: string}>   $columns
@@ -277,6 +278,9 @@ final class DatabaseExport {
 
 		if ( 'options' === $table['base'] && 'active_plugins' === $named['option_name'] ) {
 			$row[ array_search( 'option_value', $names, true ) ] = self::without_this_plugin( (string) $named['option_value'] );
+		}
+		if ( 'options' === $table['base'] && 'blog_public' === $named['option_name'] && null !== $profile->blog_public() ) {
+			$row[ array_search( 'option_value', $names, true ) ] = $profile->blog_public();
 		}
 
 		foreach ( $columns as $i => $column ) {

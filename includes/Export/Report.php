@@ -32,6 +32,14 @@ final class Report {
 		$lines[] = self::field( __( 'Source', 'rmd-migrate-from-localdev' ), $source['home'] . '  (' . $source['abspath'] . ')' );
 		$lines[] = self::field( __( 'Target', 'rmd-migrate-from-localdev' ), $profile->target_url . ( '' === $profile->target_path ? '' : '  (' . $profile->target_path . ')' ) );
 		$lines[] = self::field( __( 'Table prefix', 'rmd-migrate-from-localdev' ), $prefix );
+		$lines[] = self::field(
+			__( 'Search engines', 'rmd-migrate-from-localdev' ),
+			match ( $profile->blog_public() ) {
+				'0'     => __( 'indexing discouraged', 'rmd-migrate-from-localdev' ),
+				'1'     => __( 'indexing allowed', 'rmd-migrate-from-localdev' ),
+				default => __( 'as on the local site', 'rmd-migrate-from-localdev' ),
+			}
+		);
 		$lines[] = '';
 
 		$lines[] = self::heading( __( 'Contents', 'rmd-migrate-from-localdev' ) );

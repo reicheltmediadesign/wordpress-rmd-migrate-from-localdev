@@ -299,11 +299,8 @@ final class Page {
 		self::text_field( 'target_url', __( 'Site address', 'rmd-migrate-from-localdev' ), (string) $values['target_url'], __( 'Address of the site on the target, e.g. https://example.com. Replaces every spelling of the local address.', 'rmd-migrate-from-localdev' ), 'regular-text code', true, 'https://example.com' );
 		self::text_field( 'target_path', __( 'Server path', 'rmd-migrate-from-localdev' ), (string) $values['target_path'], __( 'Absolute path of the WordPress folder on the target server, e.g. /mnt/web123/a1/23/51234567/htdocs/example. Local file paths stored by plugins are replaced with it. Leave empty if unknown; remaining local paths are listed in the report.', 'rmd-migrate-from-localdev' ), 'large-text code' );
 		self::text_field( 'table_prefix', __( 'Table prefix', 'rmd-migrate-from-localdev' ), (string) $values['table_prefix'], __( 'Empty = keep the local prefix. Must match $table_prefix in wp-config.php on the target.', 'rmd-migrate-from-localdev' ), 'small-text code', false, $wpdb->prefix );
-		echo '<tr><th scope="row"><label for="rmd-mfl-environment_type">' . esc_html__( 'Environment type', 'rmd-migrate-from-localdev' ) . '</label></th><td><select id="rmd-mfl-environment_type" name="profile[environment_type]">';
-		foreach ( self::environment_labels() as $type => $label ) {
-			printf( '<option value="%s" %s>%s</option>', esc_attr( $type ), selected( $values['environment_type'], $type, false ), esc_html( $label ) );
-		}
-		echo '</select><p class="description">' . esc_html__( 'Written as WP_ENVIRONMENT_TYPE into the wp-config.php template.', 'rmd-migrate-from-localdev' ) . '</p></td></tr>';
+		self::select_field( 'environment_type', __( 'Environment type', 'rmd-migrate-from-localdev' ), (string) $values['environment_type'], self::environment_labels(), __( 'Written as WP_ENVIRONMENT_TYPE into the wp-config.php template.', 'rmd-migrate-from-localdev' ) );
+		self::select_field( 'search_engines', __( 'Search engines', 'rmd-migrate-from-localdev' ), (string) $values['search_engines'], self::search_engine_labels(), __( 'Sets "Discourage search engines from indexing this site" (Settings → Reading) in the dump. Recommended for development and staging sites. Search engines usually follow it, but it does not protect the site.', 'rmd-migrate-from-localdev' ) );
 		echo '</tbody></table>';
 
 		echo '<h2>' . esc_html__( 'Files', 'rmd-migrate-from-localdev' ) . '</h2>';
@@ -351,6 +348,17 @@ final class Page {
 	}
 
 	/**
+	 * @param array<string, string> $options
+	 */
+	private static function select_field( string $key, string $label, string $value, array $options, string $description ): void {
+		printf( '<tr><th scope="row"><label for="rmd-mfl-%1$s">%2$s</label></th><td><select id="rmd-mfl-%1$s" name="profile[%1$s]">', esc_attr( $key ), esc_html( $label ) );
+		foreach ( $options as $option => $option_label ) {
+			printf( '<option value="%s" %s>%s</option>', esc_attr( $option ), selected( $value, $option, false ), esc_html( $option_label ) );
+		}
+		echo '</select><p class="description">' . esc_html( $description ) . '</p></td></tr>';
+	}
+
+	/**
 	 * @param list<string> $lines
 	 */
 	private static function textarea_field( string $key, string $label, array $lines, string $description, int $rows = 10 ): void {
@@ -372,6 +380,17 @@ final class Page {
 			'production'  => __( 'Production', 'rmd-migrate-from-localdev' ),
 			'staging'     => __( 'Staging', 'rmd-migrate-from-localdev' ),
 			'development' => __( 'Development', 'rmd-migrate-from-localdev' ),
+		];
+	}
+
+	/**
+	 * @return array<string, string>
+	 */
+	private static function search_engine_labels(): array {
+		return [
+			'keep'       => __( 'Keep the setting of the local site', 'rmd-migrate-from-localdev' ),
+			'discourage' => __( 'Discourage indexing', 'rmd-migrate-from-localdev' ),
+			'allow'      => __( 'Allow indexing', 'rmd-migrate-from-localdev' ),
 		];
 	}
 

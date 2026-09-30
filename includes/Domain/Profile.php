@@ -16,6 +16,9 @@ final class Profile {
 
 	public const ENVIRONMENT_TYPES = [ 'production', 'staging', 'development' ];
 
+	/** Search engine visibility on the target: keep the local setting, discourage or allow indexing. */
+	public const SEARCH_ENGINE_MODES = [ 'keep', 'discourage', 'allow' ];
+
 	public const DEFAULT_EXCLUDES = [
 		'.git/',
 		'.github/',
@@ -63,7 +66,8 @@ final class Profile {
 		public readonly bool $skip_revisions,
 		public readonly bool $skip_spam_comments,
 		public readonly bool $portable_collations,
-		public readonly bool $gzip
+		public readonly bool $gzip,
+		public readonly string $search_engines
 	) {}
 
 	/**
@@ -86,6 +90,7 @@ final class Profile {
 			'skip_spam_comments'  => true,
 			'portable_collations' => true,
 			'gzip'                => true,
+			'search_engines'      => 'keep',
 		];
 	}
 
@@ -132,6 +137,11 @@ final class Profile {
 			$environment = $defaults['environment_type'];
 		}
 
+		$search_engines = self::string( $raw['search_engines'] ?? $defaults['search_engines'] );
+		if ( ! in_array( $search_engines, self::SEARCH_ENGINE_MODES, true ) ) {
+			$search_engines = $defaults['search_engines'];
+		}
+
 		$id = self::string( $raw['id'] ?? '' );
 		if ( ! preg_match( '/^[a-z0-9-]{1,64}$/', $id ) ) {
 			$id = self::slug( $name );
@@ -152,13 +162,25 @@ final class Profile {
 			self::bool( $raw, 'skip_revisions' ),
 			self::bool( $raw, 'skip_spam_comments' ),
 			self::bool( $raw, 'portable_collations' ),
-			self::bool( $raw, 'gzip' )
+			self::bool( $raw, 'gzip' ),
+			$search_engines
 		);
 
 		return [
 			'profile' => $profile,
 			'errors'  => $errors,
 		];
+	}
+
+	/**
+	 * Value for the blog_public option on the target, or null to keep the local one.
+	 */
+	public function blog_public(): ?string {
+		return match ( $this->search_engines ) {
+			'discourage' => '0',
+			'allow'      => '1',
+			default      => null,
+		};
 	}
 
 	public function is_complete(): bool {

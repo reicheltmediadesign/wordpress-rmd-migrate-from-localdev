@@ -12,6 +12,7 @@ WordPress plugin that prepares a local development site for upload to a staging 
 - **Complete site copy** with sensible exclusions (`.git`, `node_modules`, caches, backups, logs, Markdown files in the WordPress folder) and your own rules in `.gitignore` syntax.
 - **Linked plugin repositories** (junctions/symlinks in `wp-content/plugins`): if the repository contains a built release zip (`dist/<folder>.zip`), that zip is used; otherwise its `.distignore` applies, so no development files end up on the server.
 - **Ready for the target:** `.htaccess` with the right `RewriteBase`, a `wp-config.php` template with placeholders for the database credentials, new security keys, debugging off and `WP_ENVIRONMENT_TYPE` set.
+- **Search engine visibility** per profile: discourage indexing on development and staging sites, allow it on production, or keep the local setting.
 - **Optional table prefix change**, including the keys WordPress stores with the prefix (`<prefix>user_roles`, `<prefix>capabilities`, …).
 - **Leaner dump:** transients, this plugin's own data and optionally revisions and spam are left out; tables like Yoast's indexables are exported empty because the plugin rebuilds them.
 - **Compatible dump** for phpMyAdmin: gzip-compressed, batched inserts, binary data as hex, collations of MySQL 8 and new MariaDB versions replaced for older servers (optional).
@@ -59,6 +60,7 @@ The plugin is not copied into its own exports and is removed from the list of ac
 | Server path | empty | Absolute path of the WordPress folder on the target server. Local file paths stored by plugins are replaced with it. Empty = paths stay and are listed in the report. |
 | Table prefix | local prefix | Prefix of the tables in the dump. Must match `$table_prefix` on the target. |
 | Environment type | Production | `WP_ENVIRONMENT_TYPE` in the `wp-config.php` template. |
+| Search engines | Keep the setting of the local site | Sets "Discourage search engines from indexing this site" (Settings → Reading) in the dump: keep, discourage or allow indexing. Recommended for development and staging sites. |
 | Copy files | on | Copy the complete WordPress folder. Off = database only. |
 | Leave out | see below | Exclusion rules, one per line. |
 | Tables without data | `actionscheduler_logs`, `yoast_indexable`, `yoast_indexable_hierarchy`, `yoast_seo_links` | Tables (without prefix) that are created empty. |
