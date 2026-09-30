@@ -8,6 +8,7 @@ All notable changes to this plugin are documented here. The format follows
 ### Added
 
 - Profile option **Search engines**: discourage or allow indexing on the target (sets `blog_public` in the dump), or keep the setting of the local site.
+- **Password protection** per profile for staging sites: HTTP basic authentication via `.htaccess` and `.htpasswd` in the export, renewed with every upload. Only a bcrypt hash of the password is stored; `wp-cron.php` stays reachable.
 
 ## [0.1.0] – 2026-09-30
 

@@ -1,13 +1,14 @@
 <?php
 /**
- * Last export step: compresses the dump, writes .htaccess and a wp-config.php
- * template for the target and the MIGRATION.txt report.
+ * Last export step: compresses the dump, writes .htaccess (and .htpasswd for
+ * password-protected targets), a wp-config.php template and the MIGRATION.txt report.
  *
  * @package RMD\MigrateFromLocaldev
  */
 
 namespace RMD\MigrateFromLocaldev\Export;
 
+use RMD\MigrateFromLocaldev\Domain\BasicAuth;
 use RMD\MigrateFromLocaldev\Domain\Htaccess;
 use RMD\MigrateFromLocaldev\Domain\Profile;
 use RMD\MigrateFromLocaldev\Domain\ReplacementPlan;
@@ -32,10 +33,18 @@ final class Finisher {
 			self::gzip( $dir . '/' . Job::SQL_FILE );
 		}
 
-		$htaccess = $root . '/.htaccess';
-		if ( $profile->include_files && is_readable( $htaccess ) ) {
-			$content = Htaccess::for_target( (string) file_get_contents( $htaccess ), ReplacementPlan::url_path( $profile->target_url ) );
-			self::put( $dir . '/' . Job::FILES_DIR . '/.htaccess', $content );
+		if ( $profile->include_files ) {
+			$htaccess = $root . '/.htaccess';
+			$content  = is_readable( $htaccess )
+				? Htaccess::for_target( (string) file_get_contents( $htaccess ), ReplacementPlan::url_path( $profile->target_url ) )
+				: '';
+			if ( $profile->has_basic_auth() ) {
+				$content = BasicAuth::prepend( $content, BasicAuth::htaccess_block( $profile->target_path . '/.htpasswd' ) );
+				self::put( $dir . '/' . Job::FILES_DIR . '/.htpasswd', BasicAuth::htpasswd( $profile->basic_auth_user, $profile->basic_auth_hash ) );
+			}
+			if ( '' !== $content ) {
+				self::put( $dir . '/' . Job::FILES_DIR . '/.htaccess', $content );
+			}
 		}
 
 		$config = self::find_wp_config( $root );
