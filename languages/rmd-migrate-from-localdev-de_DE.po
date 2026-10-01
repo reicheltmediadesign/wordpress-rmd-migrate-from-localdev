@@ -81,7 +81,7 @@ msgstr "Pfad kopieren"
 msgid "Copied"
 msgstr "Kopiert"
 
-#: includes/Admin/Page.php:87 includes/Export/Report.php:156
+#: includes/Admin/Page.php:87 includes/Export/Report.php:142
 msgid "Warnings"
 msgstr "Warnungen"
 
@@ -97,7 +97,7 @@ msgstr "Fertig. Lade den Export wie in MIGRATION.txt beschrieben hoch."
 msgid "You are not allowed to access this page."
 msgstr "Du darfst diese Seite nicht aufrufen."
 
-#: includes/Admin/Page.php:115 includes/Admin/Page.php:288 includes/Admin/Page.php:337
+#: includes/Admin/Page.php:115 includes/Admin/Page.php:288 includes/Admin/Page.php:323
 msgid "Add profile"
 msgstr "Profil hinzufügen"
 
@@ -165,7 +165,7 @@ msgstr "Exporte"
 msgid "No exports yet."
 msgstr "Noch keine Exporte."
 
-#: includes/Admin/Page.php:222 includes/Admin/Page.php:326 includes/Export/Report.php:96
+#: includes/Admin/Page.php:222 includes/Admin/Page.php:312 includes/Export/Report.php:82
 msgid "Database"
 msgstr "Datenbank"
 
@@ -269,179 +269,127 @@ msgstr "Auslassen"
 msgid "One rule per line, like .gitignore: \"name\" matches everywhere, \"/name\" only in the WordPress folder, a trailing \"/\" only folders, \"*\" is a wildcard. wp-config.php, .htaccess (rewritten for the target), the export folder and this plugin are always left out. Linked folders (junctions) with a release zip in dist/ are replaced by that zip, otherwise their .distignore applies."
 msgstr "Eine Regel pro Zeile, wie .gitignore: „name“ passt überall, „/name“ nur im WordPress-Ordner, ein abschließendes „/“ nur auf Ordner, „*“ ist ein Platzhalter. wp-config.php, .htaccess (wird für das Ziel neu geschrieben), der Exportordner und dieses Plugin werden immer ausgelassen. Verlinkte Ordner (Junctions) mit Release-Zip in dist/ werden durch dieses Zip ersetzt, sonst gilt ihre .distignore."
 
-#: includes/Admin/Page.php:312
-msgid "Password protection"
-msgstr "Passwortschutz"
-
-#: includes/Admin/Page.php:313
-msgid "For development and staging sites: visitors must enter a user name and password (HTTP basic authentication). The export writes the rules into .htaccess and the password file .htpasswd into files/, so the protection is renewed with every upload. Needs the server path and copied files."
-msgstr "Für Entwicklungs- und Staging-Seiten: Besucher müssen Benutzername und Passwort eingeben (HTTP-Basic-Authentifizierung). Der Export schreibt die Regeln in die .htaccess und die Passwortdatei .htpasswd in files/, der Schutz wird also mit jedem Upload erneuert. Braucht den Serverpfad und kopierte Dateien."
-
-#: includes/Admin/Page.php:315
-msgid "Protect the site"
-msgstr "Website schützen"
-
-#: includes/Admin/Page.php:315
-msgid "Ask for a user name and password. wp-cron.php stays open; external services such as payment webhooks cannot reach the site."
-msgstr "Nach Benutzername und Passwort fragen. wp-cron.php bleibt offen; externe Dienste wie Zahlungs-Webhooks erreichen die Seite nicht."
-
-#: includes/Admin/Page.php:316
-msgid "User name"
-msgstr "Benutzername"
-
-#: includes/Admin/Page.php:316
-msgid "Without spaces and colons."
-msgstr "Ohne Leerzeichen und Doppelpunkte."
-
-#: includes/Admin/Page.php:320 includes/Export/Report.php:45
-msgid "Password"
-msgstr "Passwort"
-
-#: includes/Admin/Page.php:321
-msgid "unchanged"
-msgstr "unverändert"
-
-#: includes/Admin/Page.php:322
-msgid "A password is set. Enter a new one to replace it. Only a hash is stored, so the password cannot be shown again."
-msgstr "Ein Passwort ist gesetzt. Gib ein neues ein, um es zu ersetzen. Gespeichert wird nur ein Hash, das Passwort kann also nicht mehr angezeigt werden."
-
-#: includes/Admin/Page.php:322
-msgid "Only a hash is stored, so the password cannot be shown again. Note it down."
-msgstr "Gespeichert wird nur ein Hash, das Passwort kann also nicht mehr angezeigt werden. Notiere es dir."
-
-#: includes/Admin/Page.php:328
+#: includes/Admin/Page.php:314
 msgid "Tables without data"
 msgstr "Tabellen ohne Daten"
 
-#: includes/Admin/Page.php:328
+#: includes/Admin/Page.php:314
 msgid "Table names without prefix, one per line. They are created empty, e.g. logs or indexes that plugins rebuild."
 msgstr "Tabellennamen ohne Präfix, einer pro Zeile. Sie werden leer angelegt, z. B. Logs oder Indizes, die Plugins neu aufbauen."
 
-#: includes/Admin/Page.php:329
+#: includes/Admin/Page.php:315
 msgid "GUIDs"
 msgstr "GUIDs"
 
-#: includes/Admin/Page.php:329
+#: includes/Admin/Page.php:315
 msgid "Also replace the local address in post GUIDs (recommended when a local site goes online for the first time)."
 msgstr "Die lokale Adresse auch in den GUIDs der Beiträge ersetzen (empfohlen, wenn eine lokale Seite zum ersten Mal online geht)."
 
-#: includes/Admin/Page.php:330
+#: includes/Admin/Page.php:316
 msgid "Relative links"
 msgstr "Relative Links"
 
-#: includes/Admin/Page.php:330
+#: includes/Admin/Page.php:316
 msgid "Adjust links like \"/subfolder/wp-content/…\" when the local site lives in a subfolder."
 msgstr "Links wie „/unterordner/wp-content/…“ anpassen, wenn die lokale Seite in einem Unterordner liegt."
 
-#: includes/Admin/Page.php:331
+#: includes/Admin/Page.php:317
 msgid "Revisions"
 msgstr "Revisionen"
 
-#: includes/Admin/Page.php:331
+#: includes/Admin/Page.php:317
 msgid "Leave out post revisions."
 msgstr "Revisionen von Beiträgen auslassen."
 
-#: includes/Admin/Page.php:332
+#: includes/Admin/Page.php:318
 msgid "Spam"
 msgstr "Spam"
 
-#: includes/Admin/Page.php:332
+#: includes/Admin/Page.php:318
 msgid "Leave out spam and trashed comments."
 msgstr "Spam- und gelöschte Kommentare auslassen."
 
-#: includes/Admin/Page.php:333
+#: includes/Admin/Page.php:319
 msgid "Compatibility"
 msgstr "Kompatibilität"
 
-#: includes/Admin/Page.php:333
+#: includes/Admin/Page.php:319
 msgid "Replace collations of MySQL 8 and new MariaDB versions that older database servers reject."
 msgstr "Kollationen von MySQL 8 und neuen MariaDB-Versionen ersetzen, die ältere Datenbankserver ablehnen."
 
-#: includes/Admin/Page.php:334
+#: includes/Admin/Page.php:320
 msgid "Compression"
 msgstr "Komprimierung"
 
-#: includes/Admin/Page.php:334
+#: includes/Admin/Page.php:320
 msgid "Save the dump as .sql.gz (phpMyAdmin imports it directly and the upload limit is reached later)."
 msgstr "Den Dump als .sql.gz speichern (phpMyAdmin importiert ihn direkt, und das Upload-Limit wird später erreicht)."
 
-#: includes/Admin/Page.php:337
+#: includes/Admin/Page.php:323
 msgid "Save profile"
 msgstr "Profil speichern"
 
-#: includes/Admin/Page.php:394
+#: includes/Admin/Page.php:380
 msgid "Production"
 msgstr "Produktiv"
 
-#: includes/Admin/Page.php:395
+#: includes/Admin/Page.php:381
 msgid "Staging"
 msgstr "Staging"
 
-#: includes/Admin/Page.php:396
+#: includes/Admin/Page.php:382
 msgid "Development"
 msgstr "Entwicklung"
 
-#: includes/Admin/Page.php:405
+#: includes/Admin/Page.php:391
 msgid "Keep the setting of the local site"
 msgstr "Einstellung der lokalen Seite übernehmen"
 
-#: includes/Admin/Page.php:406
+#: includes/Admin/Page.php:392
 msgid "Discourage indexing"
 msgstr "Indexierung verhindern"
 
-#: includes/Admin/Page.php:407
+#: includes/Admin/Page.php:393
 msgid "Allow indexing"
 msgstr "Indexierung erlauben"
 
-#: includes/Admin/Page.php:413
+#: includes/Admin/Page.php:399
 msgid "Enter a name."
 msgstr "Gib einen Namen ein."
 
-#: includes/Admin/Page.php:414
+#: includes/Admin/Page.php:400
 msgid "Enter the site address of the target."
 msgstr "Gib die Website-Adresse des Ziels ein."
 
-#: includes/Admin/Page.php:415
+#: includes/Admin/Page.php:401
 msgid "The site address must start with http:// or https:// and must not contain a query or fragment."
 msgstr "Die Website-Adresse muss mit http:// oder https:// beginnen und darf keine Query oder kein Fragment enthalten."
 
-#: includes/Admin/Page.php:416
+#: includes/Admin/Page.php:402
 msgid "The server path must be absolute (start with /)."
 msgstr "Der Serverpfad muss absolut sein (mit / beginnen)."
 
-#: includes/Admin/Page.php:417
+#: includes/Admin/Page.php:403
 msgid "The table prefix may only contain letters, digits and underscores."
 msgstr "Das Tabellenpräfix darf nur Buchstaben, Ziffern und Unterstriche enthalten."
 
-#: includes/Admin/Page.php:418
-msgid "Enter a user name for the password protection (without spaces and colons)."
-msgstr "Gib einen Benutzernamen für den Passwortschutz ein (ohne Leerzeichen und Doppelpunkte)."
-
-#: includes/Admin/Page.php:419
-msgid "Enter a password for the password protection."
-msgstr "Gib ein Passwort für den Passwortschutz ein."
-
-#: includes/Admin/Page.php:420
-msgid "The password protection needs the server path of the target."
-msgstr "Der Passwortschutz braucht den Serverpfad des Ziels."
-
-#: includes/Admin/Page.php:434
+#: includes/Admin/Page.php:417
 msgid "Profile saved."
 msgstr "Profil gespeichert."
 
-#: includes/Admin/Page.php:435
+#: includes/Admin/Page.php:418
 msgid "Profile deleted."
 msgstr "Profil gelöscht."
 
-#: includes/Admin/Page.php:436
+#: includes/Admin/Page.php:419
 msgid "Export deleted."
 msgstr "Export gelöscht."
 
-#: includes/Admin/Page.php:437
+#: includes/Admin/Page.php:420
 msgid "Settings saved."
 msgstr "Einstellungen gespeichert."
 
-#: includes/Admin/Page.php:516
+#: includes/Admin/Page.php:495
 msgid "You are not allowed to do this."
 msgstr "Das darfst du nicht."
 
@@ -505,11 +453,11 @@ msgstr "Release-Zip konnte nicht entpackt werden: %s"
 msgid "Writing the file list failed. Is the disk full?"
 msgstr "Die Dateiliste konnte nicht geschrieben werden. Ist die Festplatte voll?"
 
-#: includes/Export/Finisher.php:73 includes/Export/Finisher.php:79
+#: includes/Export/Finisher.php:64 includes/Export/Finisher.php:70
 msgid "The database dump could not be compressed."
 msgstr "Der Datenbank-Dump konnte nicht komprimiert werden."
 
-#: includes/Export/Finisher.php:107
+#: includes/Export/Finisher.php:98
 #, php-format
 msgid "Could not write %s."
 msgstr "%s konnte nicht geschrieben werden."
@@ -577,106 +525,93 @@ msgstr "Indexierung erlaubt"
 msgid "as on the local site"
 msgstr "wie auf der lokalen Seite"
 
-#: includes/Export/Report.php:49
-#, php-format
-msgid "protected, user \"%s\""
-msgstr "geschützt, Benutzer „%s“"
-
-#: includes/Export/Report.php:52
-msgid "none"
-msgstr "keiner"
-
-#: includes/Export/Report.php:56
+#: includes/Export/Report.php:45
 msgid "Contents"
 msgstr "Inhalt"
 
-#: includes/Export/Report.php:60
+#: includes/Export/Report.php:49
 #, php-format
 msgid "The complete site (%1$s files, %2$s). Upload the contents of this folder into the web root of the target."
 msgstr "Die komplette Website (%1$s Dateien, %2$s). Lade den Inhalt dieses Ordners in das Webroot des Ziels hoch."
 
-#: includes/Export/Report.php:65
+#: includes/Export/Report.php:54
 msgid "Database dump for phpMyAdmin (Import tab). Tables with the same names are replaced."
 msgstr "Datenbank-Dump für phpMyAdmin (Reiter „Importieren“). Gleichnamige Tabellen werden ersetzt."
 
-#: includes/Export/Report.php:67
+#: includes/Export/Report.php:56
 msgid "Only for a new installation: enter the database credentials of the target, rename it to wp-config.php and upload it. It has new security keys, debugging switched off and the table prefix of the dump."
 msgstr "Nur für eine neue Installation: Zugangsdaten der Zieldatenbank eintragen, in wp-config.php umbenennen und hochladen. Enthält neue Sicherheitsschlüssel, ausgeschaltetes Debugging und das Tabellenpräfix des Dumps."
 
-#: includes/Export/Report.php:71
+#: includes/Export/Report.php:60
 msgid "Next steps"
 msgstr "Nächste Schritte"
 
-#: includes/Export/Report.php:74
+#: includes/Export/Report.php:63
 msgid "Upload the contents of files/ via SFTP. Keep the wp-config.php that already exists on the target (it is not part of the export)."
 msgstr "Den Inhalt von files/ per SFTP hochladen. Die auf dem Ziel vorhandene wp-config.php bleibt erhalten (sie ist nicht Teil des Exports)."
 
-#: includes/Export/Report.php:78
+#: includes/Export/Report.php:67
 #, php-format
 msgid "Import %s in phpMyAdmin into the database of the target."
 msgstr "%s in phpMyAdmin in die Datenbank des Ziels importieren."
 
-#: includes/Export/Report.php:83
+#: includes/Export/Report.php:72
 #, php-format
 msgid "Check that $table_prefix in wp-config.php on the target is \"%s\"."
 msgstr "Prüfen, dass $table_prefix in der wp-config.php auf dem Ziel „%s“ ist."
 
-#: includes/Export/Report.php:86
+#: includes/Export/Report.php:75
 msgid "Log in on the target (the users and passwords of the local site apply) and save Settings → Permalinks once."
 msgstr "Auf dem Ziel anmelden (es gelten Benutzer und Passwörter der lokalen Seite) und einmal Einstellungen → Permalinks speichern."
 
-#: includes/Export/Report.php:87
+#: includes/Export/Report.php:76
 msgid "Clear caches, and if you use Yoast SEO run SEO → Tools → \"Optimize SEO data\"."
 msgstr "Caches leeren und, falls Yoast SEO genutzt wird, SEO → Werkzeuge → „SEO-Daten optimieren“ ausführen."
 
-#: includes/Export/Report.php:89
-msgid "The site asks for the user name and password of the profile (.htaccess and .htpasswd in files/). External services such as payment webhooks cannot reach it; wp-cron.php stays open."
-msgstr "Die Seite fragt nach Benutzername und Passwort aus dem Profil (.htaccess und .htpasswd in files/). Externe Dienste wie Zahlungs-Webhooks erreichen sie nicht; wp-cron.php bleibt offen."
-
-#: includes/Export/Report.php:100
+#: includes/Export/Report.php:86
 msgid "structure only"
 msgstr "nur Struktur"
 
-#: includes/Export/Report.php:103
+#: includes/Export/Report.php:89
 #, php-format
 msgid "%1$s rows, %2$s values changed"
 msgstr "%1$s Zeilen, %2$s Werte geändert"
 
-#: includes/Export/Report.php:111
+#: includes/Export/Report.php:97
 msgid "Please check: references to the local site remain"
 msgstr "Bitte prüfen: Verweise auf die lokale Seite verblieben"
 
-#: includes/Export/Report.php:114
+#: includes/Export/Report.php:100
 #, php-format
 msgid "These values still contain %s after the replacement. Often harmless (e.g. SMTP host \"localhost\"), sometimes a spelling the plugin does not know."
 msgstr "Diese Werte enthalten nach dem Ersetzen noch %s. Oft harmlos (z. B. SMTP-Host „localhost“), manchmal eine Schreibweise, die das Plugin nicht kennt."
 
-#: includes/Export/Report.php:124
+#: includes/Export/Report.php:110
 msgid "Serialized values that could not be read"
 msgstr "Serialisierte Werte, die nicht gelesen werden konnten"
 
-#: includes/Export/Report.php:125
+#: includes/Export/Report.php:111
 msgid "These values look like serialized PHP data but are malformed. They were exported unchanged."
 msgstr "Diese Werte sehen aus wie serialisierte PHP-Daten, sind aber fehlerhaft. Sie wurden unverändert exportiert."
 
-#: includes/Export/Report.php:133
+#: includes/Export/Report.php:119
 msgid "Linked folders"
 msgstr "Verlinkte Ordner"
 
-#: includes/Export/Report.php:139
+#: includes/Export/Report.php:125
 #, php-format
 msgid "Unpacked from the release zip %1$s (built %2$s)."
 msgstr "Aus dem Release-Zip %1$s entpackt (erstellt %2$s)."
 
-#: includes/Export/Report.php:143
+#: includes/Export/Report.php:129
 msgid "Copied without the files listed in its .distignore."
 msgstr "Ohne die in seiner .distignore aufgeführten Dateien kopiert."
 
-#: includes/Export/Report.php:144
+#: includes/Export/Report.php:130
 msgid "Copied completely (no .distignore found). Check for development files."
 msgstr "Vollständig kopiert (keine .distignore gefunden). Auf Entwicklungsdateien prüfen."
 
-#: includes/Export/Report.php:151
+#: includes/Export/Report.php:137
 msgid "No server path of the target was set, so local file paths were not replaced."
 msgstr "Es wurde kein Serverpfad des Ziels angegeben, daher wurden lokale Dateipfade nicht ersetzt."
 
