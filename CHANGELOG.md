@@ -5,6 +5,12 @@ All notable changes to this plugin are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.1] – 2026-10-01
+
+### Removed
+
+- Password protection for staging sites. The generated `.htaccess` block with `.htpasswd` caused "500 Internal Server Error" on some hosts (e.g. Strato) without an entry in the error log. Use the directory protection of your hosting panel instead. Settings saved for it are ignored.
+
 ## [0.2.0] – 2026-09-30
 
 ### Added

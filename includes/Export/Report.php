@@ -40,17 +40,6 @@ final class Report {
 				default => __( 'as on the local site', 'rmd-migrate-from-localdev' ),
 			}
 		);
-		$protected = $profile->include_files && $profile->has_basic_auth();
-		$lines[]   = self::field(
-			__( 'Password', 'rmd-migrate-from-localdev' ),
-			$protected
-				? sprintf(
-					/* translators: %s: user name */
-					__( 'protected, user "%s"', 'rmd-migrate-from-localdev' ),
-					$profile->basic_auth_user
-				)
-				: __( 'none', 'rmd-migrate-from-localdev' )
-		);
 		$lines[] = '';
 
 		$lines[] = self::heading( __( 'Contents', 'rmd-migrate-from-localdev' ) );
@@ -85,9 +74,6 @@ final class Report {
 		);
 		$steps[] = __( 'Log in on the target (the users and passwords of the local site apply) and save Settings → Permalinks once.', 'rmd-migrate-from-localdev' );
 		$steps[] = __( 'Clear caches, and if you use Yoast SEO run SEO → Tools → "Optimize SEO data".', 'rmd-migrate-from-localdev' );
-		if ( $protected ) {
-			$steps[] = __( 'The site asks for the user name and password of the profile (.htaccess and .htpasswd in files/). External services such as payment webhooks cannot reach it; wp-cron.php stays open.', 'rmd-migrate-from-localdev' );
-		}
 		foreach ( $steps as $i => $step ) {
 			$lines[] = ( $i + 1 ) . '. ' . $step;
 		}

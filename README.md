@@ -13,7 +13,6 @@ WordPress plugin that prepares a local development site for upload to a staging 
 - **Linked plugin repositories** (junctions/symlinks in `wp-content/plugins`): if the repository contains a built release zip (`dist/<folder>.zip`), that zip is used; otherwise its `.distignore` applies, so no development files end up on the server.
 - **Ready for the target:** `.htaccess` with the right `RewriteBase`, a `wp-config.php` template with placeholders for the database credentials, new security keys, debugging off and `WP_ENVIRONMENT_TYPE` set.
 - **Search engine visibility** per profile: discourage indexing on development and staging sites, allow it on production, or keep the local setting.
-- **Password protection for staging** (HTTP basic authentication): the export writes the rules into `.htaccess` and a `.htpasswd` into `files/`, so the protection is renewed with every upload instead of being overwritten by it. Only a bcrypt hash of the password is stored.
 - **Optional table prefix change**, including the keys WordPress stores with the prefix (`<prefix>user_roles`, `<prefix>capabilities`, …).
 - **Leaner dump:** transients, this plugin's own data and optionally revisions and spam are left out; tables like Yoast's indexables are exported empty because the plugin rebuilds them.
 - **Compatible dump** for phpMyAdmin: gzip-compressed, batched inserts, binary data as hex, collations of MySQL 8 and new MariaDB versions replaced for older servers (optional).
@@ -71,16 +70,6 @@ The plugin is not copied into its own exports and is removed from the list of ac
 | Spam | on | Leave out spam and trashed comments. |
 | Compatibility | on | Replace `utf8mb4_0900_*` and `utf8mb4_uca1400_*` collations with `utf8mb4_unicode_520_ci`. |
 | Compression | on | Save the dump as `.sql.gz`. |
-
-### Password protection
-
-| Setting | Default | Description |
-| --- | --- | --- |
-| Protect the site | off | Visitors must enter a user name and password. Needs the server path (for `AuthUserFile`) and copied files. |
-| User name | – | Without spaces and colons. |
-| Password | – | Stored only as bcrypt hash; enter a new one to replace it. |
-
-The export puts a block marked `# BEGIN RMD Migrate from Localdev: password protection` at the top of `files/.htaccess` and writes `files/.htpasswd` (Apache 2.4). `wp-cron.php` stays reachable so WordPress can run scheduled tasks. External services that call the site, such as payment webhooks, get "401 Unauthorized". Do not also use the directory protection of your hosting panel for the same folder: it writes into the same `.htaccess`, which every upload replaces.
 
 ### Exclusion rules
 

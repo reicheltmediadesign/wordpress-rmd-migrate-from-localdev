@@ -309,20 +309,6 @@ final class Page {
 		self::textarea_field( 'exclude_patterns', __( 'Leave out', 'rmd-migrate-from-localdev' ), (array) $values['exclude_patterns'], __( 'One rule per line, like .gitignore: "name" matches everywhere, "/name" only in the WordPress folder, a trailing "/" only folders, "*" is a wildcard. wp-config.php, .htaccess (rewritten for the target), the export folder and this plugin are always left out. Linked folders (junctions) with a release zip in dist/ are replaced by that zip, otherwise their .distignore applies.', 'rmd-migrate-from-localdev' ) );
 		echo '</tbody></table>';
 
-		echo '<h2>' . esc_html__( 'Password protection', 'rmd-migrate-from-localdev' ) . '</h2>';
-		echo '<p>' . esc_html__( 'For development and staging sites: visitors must enter a user name and password (HTTP basic authentication). The export writes the rules into .htaccess and the password file .htpasswd into files/, so the protection is renewed with every upload. Needs the server path and copied files.', 'rmd-migrate-from-localdev' ) . '</p>';
-		echo '<table class="form-table" role="presentation"><tbody>';
-		self::checkbox_field( 'basic_auth', __( 'Protect the site', 'rmd-migrate-from-localdev' ), (bool) $values['basic_auth'], __( 'Ask for a user name and password. wp-cron.php stays open; external services such as payment webhooks cannot reach the site.', 'rmd-migrate-from-localdev' ) );
-		self::text_field( 'basic_auth_user', __( 'User name', 'rmd-migrate-from-localdev' ), (string) $values['basic_auth_user'], __( 'Without spaces and colons.', 'rmd-migrate-from-localdev' ), 'regular-text' );
-		$has_password = '' !== (string) $values['basic_auth_hash'];
-		printf(
-			'<tr><th scope="row"><label for="rmd-mfl-basic_auth_password">%s</label></th><td><input type="password" id="rmd-mfl-basic_auth_password" name="profile[basic_auth_password]" value="" class="regular-text" autocomplete="new-password" placeholder="%s"><p class="description">%s</p></td></tr>',
-			esc_html__( 'Password', 'rmd-migrate-from-localdev' ),
-			esc_attr( $has_password ? __( 'unchanged', 'rmd-migrate-from-localdev' ) : '' ),
-			esc_html( $has_password ? __( 'A password is set. Enter a new one to replace it. Only a hash is stored, so the password cannot be shown again.', 'rmd-migrate-from-localdev' ) : __( 'Only a hash is stored, so the password cannot be shown again. Note it down.', 'rmd-migrate-from-localdev' ) )
-		);
-		echo '</tbody></table>';
-
 		echo '<h2>' . esc_html__( 'Database', 'rmd-migrate-from-localdev' ) . '</h2>';
 		echo '<table class="form-table" role="presentation"><tbody>';
 		self::textarea_field( 'empty_tables', __( 'Tables without data', 'rmd-migrate-from-localdev' ), (array) $values['empty_tables'], __( 'Table names without prefix, one per line. They are created empty, e.g. logs or indexes that plugins rebuild.', 'rmd-migrate-from-localdev' ), 4 );
@@ -410,14 +396,11 @@ final class Page {
 
 	private static function error_message( string $code ): string {
 		$messages = [
-			'name_required'                => __( 'Enter a name.', 'rmd-migrate-from-localdev' ),
-			'target_url_required'          => __( 'Enter the site address of the target.', 'rmd-migrate-from-localdev' ),
-			'invalid_target_url'           => __( 'The site address must start with http:// or https:// and must not contain a query or fragment.', 'rmd-migrate-from-localdev' ),
-			'invalid_target_path'          => __( 'The server path must be absolute (start with /).', 'rmd-migrate-from-localdev' ),
-			'invalid_table_prefix'         => __( 'The table prefix may only contain letters, digits and underscores.', 'rmd-migrate-from-localdev' ),
-			'invalid_basic_auth_user'      => __( 'Enter a user name for the password protection (without spaces and colons).', 'rmd-migrate-from-localdev' ),
-			'basic_auth_password_required' => __( 'Enter a password for the password protection.', 'rmd-migrate-from-localdev' ),
-			'basic_auth_needs_target_path' => __( 'The password protection needs the server path of the target.', 'rmd-migrate-from-localdev' ),
+			'name_required'        => __( 'Enter a name.', 'rmd-migrate-from-localdev' ),
+			'target_url_required'  => __( 'Enter the site address of the target.', 'rmd-migrate-from-localdev' ),
+			'invalid_target_url'   => __( 'The site address must start with http:// or https:// and must not contain a query or fragment.', 'rmd-migrate-from-localdev' ),
+			'invalid_target_path'  => __( 'The server path must be absolute (start with /).', 'rmd-migrate-from-localdev' ),
+			'invalid_table_prefix' => __( 'The table prefix may only contain letters, digits and underscores.', 'rmd-migrate-from-localdev' ),
 		];
 		return $messages[ $code ] ?? $code;
 	}
@@ -446,12 +429,8 @@ final class Page {
 
 		$raw    = isset( $_POST['profile'] ) && is_array( $_POST['profile'] ) ? wp_unslash( $_POST['profile'] ) : []; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Missing -- Normalized by Profile::parse(), nonce checked in guard().
 		$id     = sanitize_key( (string) ( $raw['id'] ?? '' ) );
-		$stored = '' === $id ? null : Settings::profile( $id );
-		$is_new = null === $stored;
-
-		// The password hash never comes from the form: keep the stored one unless a new password was entered.
-		$raw['basic_auth_hash'] = null === $stored ? '' : $stored->basic_auth_hash;
-		$result                 = Profile::parse( [ 'id' => $is_new ? '' : $id ] + $raw );
+		$is_new = '' === $id || null === Settings::profile( $id );
+		$result = Profile::parse( [ 'id' => $is_new ? '' : $id ] + $raw );
 
 		if ( [] !== $result['errors'] ) {
 			set_transient(
